@@ -13,7 +13,6 @@ func MountReceiptRouter(r *gin.RouterGroup) {
 			ValidateRes:       "",
 			TransactionIDList: []string{},
 		}
-
 		executer := controllers.NewExecuter()
 		executer(context, &ctrl)
 	})

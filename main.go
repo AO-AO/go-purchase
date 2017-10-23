@@ -2,7 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"pincloud.25/routers"
+	"pincloud.purchase/middlewares"
+	"pincloud.purchase/routers"
 )
 
 func main() {
@@ -26,6 +27,8 @@ func main() {
 	r.GET("/healthy", func(context *gin.Context) {
 		context.String(200, "I'm healthy~")
 	})
+
+	r.Use(middlewares.SetRequestID)
 	routers.MountRouters(r)
 
 	// 初始化各种cache
