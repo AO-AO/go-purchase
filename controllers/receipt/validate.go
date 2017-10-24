@@ -6,8 +6,10 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"pincloud.purchase/controllers/lib"
 	"pincloud.purchase/logger"
 )
 
@@ -16,26 +18,22 @@ var appleSandBoxHost = "sandbox.itunes.apple.com"
 var prodHost = "buy.itunes.apple.com"
 var applePath = "/verifyReceipt"
 
-// ValidateController /receipt/validate接口返回数据
-type ValidateController struct {
-	ValidateRes       string
-	TransactionIDList []string
-}
+// ValidateController /receipt/validate接口
+type ValidateController struct{}
 
 // IAPConfig In-app-purchase所需配置
 // apple:
 // google:
 type IAPConfig struct {
-	test                   bool
-	applePassword          string
-	googleClientID         string
-	googleClientSecret     string
-	googlePublicKeyStrLive string
-	googleRefToken         string
+	ApplePassword          string `form:"applePassword"`
+	GoogleClientID         string `form:"googleClientID"`
+	GoogleClientSecret     string `form:"googleClientSecret"`
+	GooglePublicKeyStrLive string `form:"googlePublicKeyStrLive"`
+	GoogleRefToken         string `form:"googleRefToken"`
 }
 
-// RequestParams 请求参数
-type RequestParams struct {
+// reqParams 请求参数
+type reqParams struct {
 	Receipt       string    `form:"receipt" bingding:"required"`
 	Market        string    `form:"market" binding:"required"`
 	IAPConfig     IAPConfig `form:"iapConfig" binding:"required"`
@@ -55,73 +53,127 @@ type appleRequst struct {
 type googleRequest struct {
 }
 
-// ValidateResult 向服务器校验的返回结果
-type ValidateResult struct {
-	TransactionID string `json:"transaction_id"`
+// validateRes 向服务器校验的返回结果
+type validateRes struct {
+	Status            int            `json:"status"`
+	InApps            []inAppProduct `json:"in_app"`
+	LatestReceiptInfo []inAppProduct `json:"latest_receipt_info"`
+	LatestReceipt     string         `json:"latest_receipt"` //auto-renewal订单有该数据
+	IsSubscription    bool           `json:"is_subscription"`
+}
+
+type inAppProduct struct {
+	Quantity               int    `json:"quantity"`
+	ProductID              string `json:"product_id"`
+	TransactionID          string `json:"transaction_id"`
+	OriginalTransactionID  string `json:"original_transaction_id"`
+	PurchaseDateMs         string `json:"purchase_date_ms"`
+	OriginalPurchaseDateMs string `json:"original_purchase_date_ms"`
+	ExpireDateMs           string `json:"expires_date_ms"`
+	TrialPeriod            bool   `json:"is_trial_period"`
 }
 
 // PickIncomingParams 为ValidateController实现的数据解析模块
-func (controller *ValidateController) PickIncomingParams(context *gin.Context) (RequestParams, error) {
-	var requestParams RequestParams
+func (controller *ValidateController) PickIncomingParams(context *gin.Context) (interface{}, lib.ERROR) {
+	requestParams := reqParams{}
+	var customErr lib.ERROR
 	err := context.Bind(&requestParams)
 	if err != nil {
 		logger.Error(err.Error(), *context)
-	} else {
-		if jsonRequestParams, err := json.Marshal(requestParams); err == nil {
-			logger.Info(string(jsonRequestParams), *context)
-		} else {
-			logger.Warn(err.Error(), *context)
-		}
+		customErr = lib.ERRORS["PARAMS_ERROR"]
+		return nil, customErr
 	}
-	return requestParams, err
+	if jsonRequestParams, err := json.Marshal(requestParams); err == nil {
+		logger.Info(string(jsonRequestParams), *context)
+	} else {
+		logger.Warn(err.Error(), *context)
+	}
+	return requestParams, customErr
 }
 
 // DataManipulate 为ValidateController实现的数据操作模块
-func (controller *ValidateController) DataManipulate(requestParams RequestParams) (ValidateResult, error) {
-	var validateResult ValidateResult
+func (controller *ValidateController) DataManipulate(context *gin.Context, request interface{}) (interface{}, lib.ERROR) {
+	requestParams := request.(reqParams)
+	var validateResult validateRes
+	var customErr lib.ERROR
 	var err error
 	if strings.ToLower(requestParams.Market) == "ios" {
 		validateResult, err = validateApple(requestParams.Receipt, requestParams.TestMode, requestParams.IAPConfig)
+		if err != nil {
+			logger.Error("Validate error: "+err.Error(), *context)
+			customErr = lib.ERRORS["RECEIPT_VALIDATE_ERROR"]
+			return nil, customErr
+		}
 	}
-	return validateResult, err
+
+	message, marshalErr := json.Marshal(validateResult)
+	if marshalErr == nil {
+		logger.Info("ValidateResponse: "+string(message), *context)
+	}
+	return validateResult, customErr
 }
 
 // FormatResponse 为ValidateController实现的response组织模块
-func (controller *ValidateController) FormatResponse(rawData interface{}) (interface{}, error) {
-	return nil, nil
+func (controller *ValidateController) FormatResponse(context *gin.Context, rawData interface{}) (interface{}, lib.ERROR) {
+	resData := rawData.(validateRes)
+	var customErr lib.ERROR
+	if resData.LatestReceipt != "" {
+		resData.IsSubscription = true
+	}
+	responseJSON := lib.StandardResponse{
+		Meta: lib.StandardResponseMeta{
+			ErrorMessage: "success",
+			Code:         200,
+			ErrorType:    "",
+		},
+		Data: resData,
+		Salt: time.Now().UnixNano() / 1000000,
+	}
+	return responseJSON, customErr
 }
 
 // SendResponse 为ValidateController实现的response发送模块
-func (controller *ValidateController) SendResponse(context *gin.Context, rawData interface{}) error {
-	return nil
+func (controller *ValidateController) SendResponse(context *gin.Context, rawData interface{}) lib.ERROR {
+	resData := rawData.(lib.StandardResponse)
+	context.JSON(http.StatusOK, resData)
+	var customErr lib.ERROR
+	return customErr
 }
 
 // ErrorHandle 为ValidateController实现的错误处理模块
-func (controller *ValidateController) ErrorHandle(context *gin.Context, err error) {
-	logger.Error(err.Error(), *context)
-	panic(err)
+func (controller *ValidateController) ErrorHandle(context *gin.Context, err lib.ERROR) {
+	errResponseJSON := lib.StandardResponse{
+		Meta: lib.StandardResponseMeta{
+			ErrorMessage: err.Error.Error(),
+			Code:         err.Code,
+			ErrorType:    err.Type,
+		},
+		Salt: time.Now().UnixNano() / 1000000,
+	}
+	context.AbortWithStatusJSON(http.StatusBadRequest, errResponseJSON)
 }
 
-func validateApple(receipt string, testMode bool, iapConfig IAPConfig) (ValidateResult, error) {
+func validateApple(receipt string, testMode bool, iapConfig IAPConfig) (validateRes, error) {
 	var checkURL string
 	if testMode {
 		checkURL = appleSandBoxHost + applePath
 	} else {
 		checkURL = prodHost + applePath
 	}
-	applePassword := iapConfig.applePassword
+	checkURL = "https://" + checkURL
+	applePassword := iapConfig.ApplePassword
 	config := appleRequst{
 		ReceiptData: receipt,
 		Password:    applePassword,
 	}
-	result := ValidateResult{}
+	result := validateRes{}
 
 	jsonConfig, err := json.Marshal(config)
 	if err != nil {
 		return result, err
 	}
 
-	ioBody := bytes.NewBufferString(string(jsonConfig))
+	ioBody := bytes.NewReader([]byte(jsonConfig))
 	response, err := http.Post(checkURL, "application/json", ioBody)
 	if err != nil {
 		return result, err

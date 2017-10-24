@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"pincloud.purchase/api"
 	"pincloud.purchase/middlewares"
-	"pincloud.purchase/routers"
 )
 
 func main() {
@@ -29,7 +29,7 @@ func main() {
 	})
 
 	r.Use(middlewares.SetRequestID)
-	routers.MountRouters(r)
+	api.MountRouters(r)
 
 	// 初始化各种cache
 	//	initCaches()
