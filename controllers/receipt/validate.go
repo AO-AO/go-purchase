@@ -57,10 +57,24 @@ type googleRequest struct {
 // validateRes 向服务器校验的返回结果
 type validateRes struct {
 	Status            int            `json:"status"`
+	ReceiptInfo       receiptData    `json:"receipt"`
+	LatestReceiptInfo []inAppProduct `json:"latest_receipt_info"`
+	LatestReceipt     string         `json:"latest_receipt"` //auto-renewal订单有该数据
+	IsSubscription    bool           `json:"is_subscription"`
+	Receipt           string
+}
+
+type receiptData struct {
+	InApps []inAppProduct `json:"in_app"`
+}
+
+type responseData struct {
+	Status            int            `json:"status"`
 	InApps            []inAppProduct `json:"in_app"`
 	LatestReceiptInfo []inAppProduct `json:"latest_receipt_info"`
 	LatestReceipt     string         `json:"latest_receipt"` //auto-renewal订单有该数据
 	IsSubscription    bool           `json:"is_subscription"`
+	Receipt           string         `json:"receipt"`
 }
 
 type inAppProduct struct {
@@ -109,14 +123,22 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 	if marshalErr == nil {
 		logger.Info("ValidateResponse: "+string(message), *context)
 	}
+	validateResult.Receipt = requestParams.Receipt
 	return validateResult, err
 }
 
 // FormatResponse 为ValidateController实现的response组织模块
 func (controller *ValidateController) FormatResponse(context *gin.Context, rawData interface{}) (interface{}, error) {
 	resData := rawData.(validateRes)
+	response := responseData{
+		Status:            resData.Status,
+		InApps:            resData.ReceiptInfo.InApps,
+		LatestReceiptInfo: resData.LatestReceiptInfo,
+		LatestReceipt:     resData.LatestReceipt,
+		Receipt:           resData.Receipt,
+	}
 	if resData.LatestReceipt != "" {
-		resData.IsSubscription = true
+		response.IsSubscription = true
 	}
 	responseJSON := lib.StandardResponse{
 		Meta: lib.StandardResponseMeta{
@@ -124,7 +146,7 @@ func (controller *ValidateController) FormatResponse(context *gin.Context, rawDa
 			Code:         200,
 			ErrorType:    "",
 		},
-		Data: resData,
+		Data: response,
 		Salt: time.Now().UnixNano() / 1000000,
 	}
 	return responseJSON, nil
