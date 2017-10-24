@@ -3,6 +3,7 @@ package receipt
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -74,35 +75,33 @@ type inAppProduct struct {
 }
 
 // PickIncomingParams 为ValidateController实现的数据解析模块
-func (controller *ValidateController) PickIncomingParams(context *gin.Context) (interface{}, lib.ERROR) {
+func (controller *ValidateController) PickIncomingParams(context *gin.Context) (interface{}, error) {
 	requestParams := reqParams{}
-	var customErr lib.ERROR
 	err := context.Bind(&requestParams)
 	if err != nil {
 		logger.Error(err.Error(), *context)
-		customErr = lib.ERRORS["PARAMS_ERROR"]
-		return nil, customErr
+		err = errors.New("PARAMS_ERROR")
+		return nil, err
 	}
 	if jsonRequestParams, err := json.Marshal(requestParams); err == nil {
 		logger.Info(string(jsonRequestParams), *context)
 	} else {
 		logger.Warn(err.Error(), *context)
 	}
-	return requestParams, customErr
+	return requestParams, err
 }
 
 // DataManipulate 为ValidateController实现的数据操作模块
-func (controller *ValidateController) DataManipulate(context *gin.Context, request interface{}) (interface{}, lib.ERROR) {
+func (controller *ValidateController) DataManipulate(context *gin.Context, request interface{}) (interface{}, error) {
 	requestParams := request.(reqParams)
 	var validateResult validateRes
-	var customErr lib.ERROR
 	var err error
 	if strings.ToLower(requestParams.Market) == "ios" {
 		validateResult, err = validateApple(requestParams.Receipt, requestParams.TestMode, requestParams.IAPConfig)
 		if err != nil {
 			logger.Error("Validate error: "+err.Error(), *context)
-			customErr = lib.ERRORS["RECEIPT_VALIDATE_ERROR"]
-			return nil, customErr
+			err = errors.New("RECEIPT_VALIDATE_ERROR")
+			return nil, err
 		}
 	}
 
@@ -110,13 +109,12 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 	if marshalErr == nil {
 		logger.Info("ValidateResponse: "+string(message), *context)
 	}
-	return validateResult, customErr
+	return validateResult, err
 }
 
 // FormatResponse 为ValidateController实现的response组织模块
-func (controller *ValidateController) FormatResponse(context *gin.Context, rawData interface{}) (interface{}, lib.ERROR) {
+func (controller *ValidateController) FormatResponse(context *gin.Context, rawData interface{}) (interface{}, error) {
 	resData := rawData.(validateRes)
-	var customErr lib.ERROR
 	if resData.LatestReceipt != "" {
 		resData.IsSubscription = true
 	}
@@ -129,24 +127,24 @@ func (controller *ValidateController) FormatResponse(context *gin.Context, rawDa
 		Data: resData,
 		Salt: time.Now().UnixNano() / 1000000,
 	}
-	return responseJSON, customErr
+	return responseJSON, nil
 }
 
 // SendResponse 为ValidateController实现的response发送模块
-func (controller *ValidateController) SendResponse(context *gin.Context, rawData interface{}) lib.ERROR {
+func (controller *ValidateController) SendResponse(context *gin.Context, rawData interface{}) error {
 	resData := rawData.(lib.StandardResponse)
 	context.JSON(http.StatusOK, resData)
-	var customErr lib.ERROR
-	return customErr
+	return nil
 }
 
 // ErrorHandle 为ValidateController实现的错误处理模块
-func (controller *ValidateController) ErrorHandle(context *gin.Context, err lib.ERROR) {
+func (controller *ValidateController) ErrorHandle(context *gin.Context, err error) {
+	errDetail := lib.ERRORS[err.Error()]
 	errResponseJSON := lib.StandardResponse{
 		Meta: lib.StandardResponseMeta{
-			ErrorMessage: err.Error.Error(),
-			Code:         err.Code,
-			ErrorType:    err.Type,
+			ErrorMessage: errDetail.Message,
+			Code:         errDetail.Code,
+			ErrorType:    errDetail.Type,
 		},
 		Salt: time.Now().UnixNano() / 1000000,
 	}
