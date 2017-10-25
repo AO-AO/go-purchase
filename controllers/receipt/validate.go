@@ -26,55 +26,11 @@ func (controller *ValidateController) PickIncomingParams(context *gin.Context) (
 		return nil, err
 	}
 
-	if strings.ToLower(requestParams.Market) == "android" {
-		googleRequestParams := googleReqParams{}
-		err := context.Bind(&googleRequestParams)
-		if err != nil {
-			logger.Error(err.Error(), *context)
-			err = errors.New("PARAMS_ERROR")
-			return nil, err
-		}
-		if jsonRequestParams, err := json.Marshal(googleRequestParams); err == nil {
-			logger.Info(string(jsonRequestParams), *context)
-		} else {
-			logger.Warn(err.Error(), *context)
-		}
-		requestParams = reqParams{
-			Receipt:       googleRequestParams.Receipt.Data,
-			Market:        googleRequestParams.Market,
-			IAPConfig:     googleRequestParams.IAPConfig,
-			UserID:        googleRequestParams.UserID,
-			Product:       googleRequestParams.Product,
-			Platform:      googleRequestParams.Platform,
-			Version:       googleRequestParams.Version,
-			TransactionID: googleRequestParams.TransactionID,
-			TestMode:      googleRequestParams.TestMode,
-		}
-	}
-	if strings.ToLower(requestParams.Market) == "ios" {
-		appleRequestParams := appleReqParams{}
-		errBind := context.Bind(&appleRequestParams)
-		if errBind != nil {
-			logger.Error(errBind.Error(), *context)
-			err = errors.New("PARAMS_ERROR")
-			return nil, errBind
-		}
-		if jsonRequestParams, err := json.Marshal(appleRequestParams); err == nil {
-			logger.Info(string(jsonRequestParams), *context)
-		} else {
-			logger.Warn(err.Error(), *context)
-		}
-		requestParams = reqParams{
-			Receipt:       appleRequestParams.Receipt,
-			Market:        appleRequestParams.Market,
-			IAPConfig:     appleRequestParams.IAPConfig,
-			UserID:        appleRequestParams.UserID,
-			Product:       appleRequestParams.Product,
-			Platform:      appleRequestParams.Platform,
-			Version:       appleRequestParams.Version,
-			TransactionID: appleRequestParams.TransactionID,
-			TestMode:      appleRequestParams.TestMode,
-		}
+	if jsonRequestParams, err := json.Marshal(requestParams); err == nil {
+		logger.Info(string(jsonRequestParams), *context)
+	} else {
+		logger.Warn(err.Error(), *context)
+		err = nil
 	}
 	return requestParams, err
 }
@@ -85,9 +41,9 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 	var err error
 	requestParams := request.(reqParams)
 	if strings.ToLower(requestParams.Market) == "ios" {
-		requestParams := request.(appleReqParams)
+		receipt := requestParams.Receipt.(string)
 		var appleValidateResult appleValidateRes
-		appleValidateResult, err = validateApple(requestParams.Receipt, requestParams.TestMode, requestParams.IAPConfig)
+		appleValidateResult, err = validateApple(receipt, requestParams.TestMode, requestParams.IAPConfig)
 		if err != nil {
 			logger.Error("Apple validate error: "+err.Error(), *context)
 			err = errors.New("RECEIPT_VALIDATE_ERROR")
@@ -104,9 +60,10 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 	}
 
 	if strings.ToLower(requestParams.Market) == "android" {
-		requestParams := request.(googleReqParams)
+		receiptData := requestParams.Receipt.(map[string]interface{})
+		receiptStr := receiptData["data"].(string)
 		var googleValidateResult googleValidateRes
-		googleValidateResult, err = validateGoogle(requestParams.Receipt.Data, requestParams.IAPConfig)
+		googleValidateResult, err = validateGoogle(receiptStr, requestParams.IAPConfig)
 		if err != nil {
 			logger.Error("Google validate error: "+err.Error(), *context)
 			err = errors.New("RECEIPT_VALIDATE_ERROR")
@@ -126,21 +83,14 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 	if marshalErr == nil {
 		logger.Info("ValidateResponse: "+string(message), *context)
 	}
-	validateResult.Receipt = requestParams.Receipt
 	return validateResult, err
 }
 
 // FormatResponse 为ValidateController实现的response组织模块
 func (controller *ValidateController) FormatResponse(context *gin.Context, rawData interface{}) (interface{}, error) {
-	resData := rawData.(appleValidateRes)
-	response := responseData{
-		Status:            resData.Status,
-		InApps:            resData.ReceiptInfo.InApps,
-		LatestReceiptInfo: resData.LatestReceiptInfo,
-		LatestReceipt:     resData.LatestReceipt,
-		Receipt:           resData.Receipt,
-	}
-	if resData.LatestReceipt != "" {
+	response := rawData.(responseData)
+
+	if response.LatestReceipt != "" {
 		response.IsSubscription = true
 	}
 	responseJSON := lib.StandardResponse{

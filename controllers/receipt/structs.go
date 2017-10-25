@@ -31,18 +31,18 @@ type reqParams struct {
 
 // googleeqParams 请求参数
 type googleReqParams struct {
-	Receipt       googlePurchaseData `form:"receipt" bingding:"required"`
-	Market        string             `form:"market" binding:"required"`
-	IAPConfig     IAPConfig          `form:"iapConfig" binding:"required"`
-	UserID        string             `form:"userId"`
-	Product       string             `form:"product"`
-	Platform      string             `form:"platform"`
-	Version       string             `form:"version"`
-	TransactionID string             `form:"transactionID"`
-	TestMode      bool               `form:"test"`
+	Receipt       googleReceipt `form:"receipt" bingding:"required"`
+	Market        string        `form:"market" binding:"required"`
+	IAPConfig     IAPConfig     `form:"iapConfig" binding:"required"`
+	UserID        string        `form:"userId"`
+	Product       string        `form:"product"`
+	Platform      string        `form:"platform"`
+	Version       string        `form:"version"`
+	TransactionID string        `form:"transactionID"`
+	TestMode      bool          `form:"test"`
 }
 
-type googlePurchaseData struct {
+type googleReceipt struct {
 	Data         string      `form:"data" binding:"required"`
 	PurchaseData interface{} //`form:"purchaseData"`
 	Signature    string      `form:"signature"`
