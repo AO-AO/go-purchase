@@ -7,6 +7,6 @@ import (
 
 // SetRequestID 为请求生成一个唯一requestID
 func SetRequestID(context *gin.Context) {
-	requestID := uuid.NewV4()
+	requestID := uuid.NewV4().String()
 	context.Set("RequestID", requestID)
 }

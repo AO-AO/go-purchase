@@ -19,7 +19,7 @@ func Info(message string, context gin.Context) {
 		strRequestID, ok = requestID.(string)
 	}
 
-	output := "INFO: " + nowTime + " [" + strRequestID + "] " + message
+	output := "INFO: " + nowTime + " [requestID:" + strRequestID + "] " + message
 	log.Println(output)
 }
 
