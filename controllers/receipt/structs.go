@@ -70,7 +70,7 @@ type appleReceiptData struct {
 
 type googleTokenRes struct {
 	AccessToken string `json:"access_token"`
-	ExpiresIn   int8   `json:"expires_in"`
+	ExpiresIn   int    `json:"expires_in"`
 	TokenType   string `json:"token_type"`
 }
 
@@ -90,7 +90,7 @@ type googleReceiptReq struct {
 
 // googleValidateRes 向服务器校验的返回结果
 type googleValidateRes struct {
-	Status            int               `json:"status"`
+	Status            int               `json:"purchaseState"`
 	ReceiptInfo       googleReceiptData `json:"receipt"`
 	LatestReceiptInfo []inAppProduct    `json:"latest_receipt_info"`
 	LatestReceipt     string            `json:"latest_receipt"` //auto-renewal订单有该数据
@@ -108,7 +108,7 @@ type responseData struct {
 	LatestReceiptInfo []inAppProduct `json:"latest_receipt_info"`
 	LatestReceipt     string         `json:"latest_receipt"` //auto-renewal订单有该数据
 	IsSubscription    bool           `json:"is_subscription"`
-	Receipt           string         `json:"receipt"`
+	Receipt           interface{}    `json:"receipt"`
 }
 
 type inAppProduct struct {

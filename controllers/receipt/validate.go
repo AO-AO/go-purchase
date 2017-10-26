@@ -55,7 +55,7 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 			InApps:            appleValidateResult.ReceiptInfo.InApps,
 			LatestReceiptInfo: appleValidateResult.LatestReceiptInfo,
 			LatestReceipt:     appleValidateResult.LatestReceipt,
-			Receipt:           appleValidateResult.Receipt,
+			Receipt:           requestParams.Receipt,
 		}
 	}
 
@@ -75,7 +75,7 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 			InApps:            googleValidateResult.ReceiptInfo.InApps,
 			LatestReceiptInfo: googleValidateResult.LatestReceiptInfo,
 			LatestReceipt:     googleValidateResult.LatestReceipt,
-			Receipt:           googleValidateResult.Receipt,
+			Receipt:           requestParams.Receipt,
 		}
 	}
 

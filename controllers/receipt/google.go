@@ -2,6 +2,7 @@ package receipt
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -12,19 +13,23 @@ var googleTokenPath = "https://accounts.google.com/o/oauth2/token"
 func refreshToken(iapConfig IAPConfig) (googleTokenRes, error) {
 	var tokenRes googleTokenRes
 	config := map[string]string{
-		"GoogleClientID":     iapConfig.GoogleClientID,
-		"GoogleClientSecret": iapConfig.GoogleClientSecret,
-		"GoogleRefToken":     iapConfig.GoogleRefToken,
+		"client_id":     iapConfig.GoogleClientID,
+		"client_secret": iapConfig.GoogleClientSecret,
+		"refresh_token": iapConfig.GoogleRefToken,
+		"grant_type":    "refresh_token",
 	}
 
 	urlData := url.Values{}
-	urlData.Set("grant_type", "refresh_token")
 	for k, v := range config {
 		urlData.Set(k, v)
 	}
 
 	response, err := http.PostForm(googleTokenPath, urlData)
 	if err != nil {
+		return tokenRes, err
+	}
+	if response.StatusCode >= 400 {
+		err = errors.New(response.Status)
 		return tokenRes, err
 	}
 	defer response.Body.Close()
@@ -50,32 +55,37 @@ func validateGoogle(receipt string, iapConfig IAPConfig) (googleValidateRes, err
 
 	// 组织checkURL
 	var checkURL string
-	packageNameURL, err := url.ParseRequestURI(receiptReq.PackageName)
-	productIDURL, err := url.ParseRequestURI(receiptReq.ProductID)
-	purchaseTokenURL, err := url.ParseRequestURI(receiptReq.PurchaseToken)
-	accessTokenURL, err := url.ParseRequestURI(iapConfig.GooglePublicKeyStrLive)
-	if err != nil {
-		return validateResult, err
+	packageNameURL := receiptReq.PackageName
+	productIDURL := receiptReq.ProductID
+	purchaseTokenURL := receiptReq.PurchaseToken
+	accessToken, refErr := refreshToken(iapConfig)
+	if refErr != nil {
+		return validateResult, refErr
 	}
+	accessTokenURL := accessToken.AccessToken
 	if receiptReq.AutoRenewing { // 订阅模式
 
 		checkURL = "https://www.googleapis.com/androidpublisher/v2/applications/" +
-			packageNameURL.String() +
+			packageNameURL +
 			"/purchases/subscriptions/" +
-			productIDURL.String() +
-			"/tokens/" + purchaseTokenURL.String() +
-			"?access_token=" + accessTokenURL.String()
+			productIDURL +
+			"/tokens/" + purchaseTokenURL +
+			"?access_token=" + accessTokenURL
 	} else { // 普通内建购买
 		checkURL = "https://www.googleapis.com/androidpublisher/v2/applications/" +
-			packageNameURL.String() +
+			packageNameURL +
 			"/purchases/products/" +
-			productIDURL.String() +
-			"/tokens/" + purchaseTokenURL.String() +
-			"?access_token=" + accessTokenURL.String()
+			productIDURL +
+			"/tokens/" + purchaseTokenURL +
+			"?access_token=" + accessTokenURL
 	}
 
 	response, err := http.Get(checkURL)
 	if err != nil {
+		return validateResult, err
+	}
+	if response.StatusCode >= 400 {
+		err = errors.New(response.Status)
 		return validateResult, err
 	}
 	defer response.Body.Close()
