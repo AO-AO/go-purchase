@@ -12,9 +12,9 @@ var appleSandBoxHost = "sandbox.itunes.apple.com"
 var prodHost = "buy.itunes.apple.com"
 var applePath = "/verifyReceipt"
 
-func validateApple(receipt string, testMode bool, iapConfig IAPConfig) (appleValidateRes, error) {
+func validateApple(receipt string, sandboxMode bool, iapConfig IAPConfig) (appleValidateRes, error) {
 	var checkURL string
-	if testMode {
+	if sandboxMode {
 		checkURL = appleSandBoxHost + applePath
 	} else {
 		checkURL = prodHost + applePath

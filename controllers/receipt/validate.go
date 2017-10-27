@@ -43,7 +43,7 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 	if strings.ToLower(requestParams.Market) == "ios" {
 		receipt := requestParams.Receipt.(string)
 		var appleValidateResult appleValidateRes
-		appleValidateResult, err = validateApple(receipt, requestParams.TestMode, requestParams.IAPConfig)
+		appleValidateResult, err = validateApple(receipt, requestParams.SandboxMode, requestParams.IAPConfig)
 		if err != nil {
 			logger.Error("Apple validate error: "+err.Error(), *context)
 			err = errors.New("RECEIPT_VALIDATE_ERROR")

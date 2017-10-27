@@ -26,21 +26,8 @@ type reqParams struct {
 	Platform      string      `form:"platform"`
 	Version       string      `form:"version"`
 	TransactionID string      `form:"transactionId"`
-	TestMode      bool        `form:"test"`
+	SandboxMode   bool        `form:"sandboxMode"` //apple测试需要指定为true
 	OrderID       string      `form:"orderId"`
-}
-
-// googleeqParams 请求参数
-type googleReqParams struct {
-	Receipt       googleReceipt `form:"receipt" bingding:"required"`
-	Market        string        `form:"market" binding:"required"`
-	IAPConfig     IAPConfig     `form:"iapConfig" binding:"required"`
-	UserID        string        `form:"userId"`
-	Product       string        `form:"product"`
-	Platform      string        `form:"platform"`
-	Version       string        `form:"version"`
-	TransactionID string        `form:"transactionID"`
-	TestMode      bool          `form:"test"`
 }
 
 type googleReceipt struct {
@@ -112,7 +99,7 @@ type googleReceiptData struct {
 
 type responseData struct {
 	Status            int            `json:"status"`
-	InApps            []inAppProduct `json:"in_app"`
+	InApps            []inAppProduct `json:"in_app，omitempty"`
 	LatestReceiptInfo []inAppProduct `json:"latest_receipt_info,omitempty"`
 	LatestReceipt     string         `json:"latest_receipt,omitempty"` //auto-renewal订单有该数据
 	IsSubscription    bool           `json:"is_subscription"`
