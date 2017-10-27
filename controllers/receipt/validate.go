@@ -57,6 +57,19 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 			LatestReceipt:     appleValidateResult.LatestReceipt,
 			Receipt:           requestParams.Receipt,
 		}
+
+		if validateResult.LatestReceipt != "" {
+			validateResult.IsSubscription = true
+		}
+
+		// 为与本次请求transactionID匹配的inApp装入orderID
+		if requestParams.TransactionID != "" && requestParams.OrderID != "" {
+			for _, inApp := range validateResult.InApps {
+				if inApp.TransactionID == requestParams.TransactionID {
+					inApp.OrderID = requestParams.OrderID
+				}
+			}
+		}
 	}
 
 	if strings.ToLower(requestParams.Market) == "android" {
@@ -69,13 +82,15 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 			err = errors.New("RECEIPT_VALIDATE_ERROR")
 			return nil, err
 		}
-		//归一
+
+		// 归一
 		validateResult = responseData{
-			Status:            googleValidateResult.Status,
-			InApps:            googleValidateResult.ReceiptInfo.InApps,
-			LatestReceiptInfo: googleValidateResult.LatestReceiptInfo,
-			LatestReceipt:     googleValidateResult.LatestReceipt,
-			Receipt:           requestParams.Receipt,
+			Status:  googleValidateResult.Status,
+			InApps:  googleValidateResult.InApps,
+			Receipt: requestParams.Receipt,
+		}
+		if validateResult.InApps[0].ExpireDateMs != "" {
+			validateResult.IsSubscription = true
 		}
 	}
 
@@ -90,9 +105,6 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 func (controller *ValidateController) FormatResponse(context *gin.Context, rawData interface{}) (interface{}, error) {
 	response := rawData.(responseData)
 
-	if response.LatestReceipt != "" {
-		response.IsSubscription = true
-	}
 	responseJSON := lib.StandardResponse{
 		Meta: lib.StandardResponseMeta{
 			ErrorMessage: "success",

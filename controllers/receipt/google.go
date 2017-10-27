@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 )
@@ -45,6 +46,7 @@ func refreshToken(iapConfig IAPConfig) (googleTokenRes, error) {
 	return tokenRes, nil
 }
 
+// 目前还没有用GooglePublicKeyStrLive
 func validateGoogle(receipt string, iapConfig IAPConfig) (googleValidateRes, error) {
 	var receiptReq googleReceiptReq
 	var validateResult googleValidateRes
@@ -80,6 +82,7 @@ func validateGoogle(receipt string, iapConfig IAPConfig) (googleValidateRes, err
 			"?access_token=" + accessTokenURL
 	}
 
+	log.Println(checkURL)
 	response, err := http.Get(checkURL)
 	if err != nil {
 		return validateResult, err
@@ -96,5 +99,19 @@ func validateGoogle(receipt string, iapConfig IAPConfig) (googleValidateRes, err
 	}
 
 	json.Unmarshal(resultBuf, &validateResult)
+	// 手工注入InApps
+	purchaseDataMs := validateResult.PurchaseDateMs
+	if validateResult.StartDateMs != "" {
+		purchaseDataMs = validateResult.StartDateMs
+	}
+	inApp := inAppProduct{
+		Quantity:       1,
+		ProductID:      receiptReq.ProductID,
+		TransactionID:  receiptReq.PurchaseToken,
+		PurchaseDateMs: purchaseDataMs,
+		ExpireDateMs:   validateResult.ExpireDateMs,
+		OrderID:        validateResult.OrderID,
+	}
+	validateResult.InApps = []inAppProduct{inApp}
 	return validateResult, err
 }

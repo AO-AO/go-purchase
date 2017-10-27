@@ -25,8 +25,9 @@ type reqParams struct {
 	Product       string      `form:"product"`
 	Platform      string      `form:"platform"`
 	Version       string      `form:"version"`
-	TransactionID string      `form:"transactionID"`
+	TransactionID string      `form:"transactionId"`
 	TestMode      bool        `form:"test"`
+	OrderID       string      `form:"orderId"`
 }
 
 // googleeqParams 请求参数
@@ -90,12 +91,19 @@ type googleReceiptReq struct {
 
 // googleValidateRes 向服务器校验的返回结果
 type googleValidateRes struct {
-	Status            int               `json:"purchaseState"`
-	ReceiptInfo       googleReceiptData `json:"receipt"`
-	LatestReceiptInfo []inAppProduct    `json:"latest_receipt_info"`
-	LatestReceipt     string            `json:"latest_receipt"` //auto-renewal订单有该数据
-	IsSubscription    bool              `json:"is_subscription"`
-	Receipt           string
+	Status            int            `json:"purchaseState"`
+	PurchaseDateMs    string         `json:"purchaseTimeMillis"`
+	StartDateMs       string         `json:"startTimeMillis"`
+	ExpireDateMs      string         `json:"expiryTimeMillis"`
+	ConsumptionState  int            `json:"consumptionState"`
+	Kind              string         `json:"kind"`
+	DeveloperPayload  string         `json:"developerPayload"`
+	OrderID           string         `json:"orderId"`
+	PriceCurrencyCode string         `json:"priceCurrencyCode"`
+	PriceAmountMicros string         `json:"priceAmountMicros"`
+	CountryCode       string         `json:"countryCode"`
+	CancelReason      int            `json:"cancelReason"`
+	InApps            []inAppProduct // 手工注入
 }
 
 type googleReceiptData struct {
@@ -105,19 +113,20 @@ type googleReceiptData struct {
 type responseData struct {
 	Status            int            `json:"status"`
 	InApps            []inAppProduct `json:"in_app"`
-	LatestReceiptInfo []inAppProduct `json:"latest_receipt_info"`
-	LatestReceipt     string         `json:"latest_receipt"` //auto-renewal订单有该数据
+	LatestReceiptInfo []inAppProduct `json:"latest_receipt_info,omitempty"`
+	LatestReceipt     string         `json:"latest_receipt,omitempty"` //auto-renewal订单有该数据
 	IsSubscription    bool           `json:"is_subscription"`
 	Receipt           interface{}    `json:"receipt"`
 }
 
 type inAppProduct struct {
-	Quantity               int    `json:"quantity"`
-	ProductID              string `json:"product_id"`
-	TransactionID          string `json:"transaction_id"`
-	OriginalTransactionID  string `json:"original_transaction_id"`
-	PurchaseDateMs         string `json:"purchase_date_ms"`
-	OriginalPurchaseDateMs string `json:"original_purchase_date_ms"`
-	ExpireDateMs           string `json:"expires_date_ms"`
-	TrialPeriod            bool   `json:"is_trial_period"`
+	Quantity               int    `json:"quantity,omitempty"`
+	ProductID              string `json:"product_id,omitempty"`
+	TransactionID          string `json:"transaction_id,omitempty"`
+	OriginalTransactionID  string `json:"original_transaction_id,omitempty"`
+	PurchaseDateMs         string `json:"purchase_date_ms,omitempty"`
+	OriginalPurchaseDateMs string `json:"original_purchase_date_ms,omitempty"`
+	ExpireDateMs           string `json:"expires_date_ms,omitempty"`
+	//	TrialPeriod            bool   `json:"is_trial_period"`
+	OrderID string `json:"order_id,omitempty"`
 }
