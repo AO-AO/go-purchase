@@ -1,4 +1,4 @@
-package receipt
+package validate
 
 import (
 	"encoding/json"
@@ -12,32 +12,34 @@ import (
 	"pincloud.purchase/purchaseApp/logger"
 )
 
-// ValidateController /receipt/validate接口
-type ValidateController struct{}
+// Controller /receipt/validate接口
+type Controller struct {
+	Context gin.Context
+}
 
 // PickIncomingParams 为ValidateController实现的数据解析模块
-func (controller *ValidateController) PickIncomingParams(context *gin.Context) (interface{}, error) {
+func (controller *Controller) PickIncomingParams(context *gin.Context) (interface{}, error) {
 	requestParams := reqParams{}
 	var err error
 	err = context.Bind(&requestParams)
 	if err != nil {
-		logger.Error(err.Error(), *context)
+		logger.Error(err.Error(), controller.Context)
 		err = errors.New("PARAMS_ERROR")
 		return nil, err
 	}
 
 	if jsonRequestParams, err := json.Marshal(requestParams); err == nil {
-		logger.Info(string(jsonRequestParams), *context)
+		logger.Info(string(jsonRequestParams), controller.Context)
 	} else {
-		logger.Warn(err.Error(), *context)
+		logger.Warn(err.Error(), controller.Context)
 		err = nil
 	}
 	return requestParams, err
 }
 
 // DataManipulate 为ValidateController实现的数据操作模块
-func (controller *ValidateController) DataManipulate(context *gin.Context, request interface{}) (interface{}, error) {
-	var validateResult responseData
+func (controller *Controller) DataManipulate(request interface{}) (interface{}, error) {
+	var validateResult ResponseData
 	var err error
 	requestParams := request.(reqParams)
 	if strings.ToLower(requestParams.Market) == "ios" {
@@ -45,12 +47,12 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 		var appleValidateResult appleValidateRes
 		appleValidateResult, err = validateApple(receipt, requestParams.SandboxMode, requestParams.IAPConfig)
 		if err != nil {
-			logger.Error("Apple validate error: "+err.Error(), *context)
+			logger.Error("Apple validate error: "+err.Error(), controller.Context)
 			err = errors.New("RECEIPT_VALIDATE_ERROR")
 			return nil, err
 		}
 		//归一
-		validateResult = responseData{
+		validateResult = ResponseData{
 			Status:            appleValidateResult.Status,
 			InApps:            appleValidateResult.ReceiptInfo.InApps,
 			LatestReceiptInfo: appleValidateResult.LatestReceiptInfo,
@@ -78,13 +80,13 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 		var googleValidateResult googleValidateRes
 		googleValidateResult, err = validateGoogle(receiptStr, requestParams.IAPConfig)
 		if err != nil {
-			logger.Error("Google validate error: "+err.Error(), *context)
+			logger.Error("Google validate error: "+err.Error(), controller.Context)
 			err = errors.New("RECEIPT_VALIDATE_ERROR")
 			return nil, err
 		}
 
 		// 归一
-		validateResult = responseData{
+		validateResult = ResponseData{
 			Status:  googleValidateResult.Status,
 			InApps:  googleValidateResult.InApps,
 			Receipt: requestParams.Receipt,
@@ -96,14 +98,14 @@ func (controller *ValidateController) DataManipulate(context *gin.Context, reque
 
 	message, marshalErr := json.Marshal(validateResult)
 	if marshalErr == nil {
-		logger.Info("ValidateResponse: "+string(message), *context)
+		logger.Info("ValidateResponse: "+string(message), controller.Context)
 	}
 	return validateResult, err
 }
 
 // FormatResponse 为ValidateController实现的response组织模块
-func (controller *ValidateController) FormatResponse(context *gin.Context, rawData interface{}) (interface{}, error) {
-	response := rawData.(responseData)
+func (controller *Controller) FormatResponse(rawData interface{}) (interface{}, error) {
+	response := rawData.(ResponseData)
 
 	responseJSON := lib.StandardResponse{
 		Meta: lib.StandardResponseMeta{
@@ -118,14 +120,14 @@ func (controller *ValidateController) FormatResponse(context *gin.Context, rawDa
 }
 
 // SendResponse 为ValidateController实现的response发送模块
-func (controller *ValidateController) SendResponse(context *gin.Context, rawData interface{}) error {
+func (controller *Controller) SendResponse(context *gin.Context, rawData interface{}) error {
 	resData := rawData.(lib.StandardResponse)
 	context.JSON(http.StatusOK, resData)
 	return nil
 }
 
 // ErrorHandle 为ValidateController实现的错误处理模块
-func (controller *ValidateController) ErrorHandle(context *gin.Context, err error) {
+func (controller *Controller) ErrorHandle(context *gin.Context, err error) {
 	errDetail := lib.ERRORS[err.Error()]
 	errResponseJSON := lib.StandardResponse{
 		Meta: lib.StandardResponseMeta{

@@ -1,4 +1,4 @@
-package receipt
+package validate
 
 import (
 	"encoding/json"

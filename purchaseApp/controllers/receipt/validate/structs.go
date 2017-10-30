@@ -1,4 +1,4 @@
-package receipt
+package validate
 
 // IAPConfig In-app-purchase所需配置
 // apple:
@@ -97,7 +97,8 @@ type googleReceiptData struct {
 	InApps []inAppProduct `json:"in_app"`
 }
 
-type responseData struct {
+// ResponseData validate返回数据类型
+type ResponseData struct {
 	Status            int            `json:"status"`
 	InApps            []inAppProduct `json:"in_app，omitempty"`
 	LatestReceiptInfo []inAppProduct `json:"latest_receipt_info,omitempty"`
