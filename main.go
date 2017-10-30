@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"pincloud.purchase/api"
-	"pincloud.purchase/middlewares"
+	"pincloud.purchase/purchaseApp/api"
+	"pincloud.purchase/purchaseApp/middlewares"
 )
 
 func main() {

@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"pincloud.purchase/controllers/lib"
-	"pincloud.purchase/logger"
+	"pincloud.purchase/purchaseApp/controllers/lib"
+	"pincloud.purchase/purchaseApp/logger"
 )
 
 // ValidateController /receipt/validate接口

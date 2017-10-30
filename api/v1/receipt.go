@@ -2,8 +2,8 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"pincloud.purchase/controllers"
-	"pincloud.purchase/controllers/receipt"
+	"pincloud.purchase/purchaseApp/controllers"
+	"pincloud.purchase/purchaseApp/controllers/receipt"
 )
 
 // MountReceiptRouter 组织/receipt/valid路由
