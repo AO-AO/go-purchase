@@ -9,3 +9,5 @@ RUN go build .
 EXPOSE 9401
 
 ENTRYPOINT ["./purchaseApp"]
+
+#docker run -p 8011:9401
