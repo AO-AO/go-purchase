@@ -1,11 +1,11 @@
 FROM golang:latest
 LABEL maintainer AOAO "xuao@gmail.com"
 
-ADD ../../src/pincloud.purchase/  $GOPATH/src/pincloud.purchase
-WORKDIR $GOPATH/src/pincloud.purchase
-RUN go install
+ADD ./purchaseApp/  $GOPATH/src/pincloud.purchase/purchaseApp
+WORKDIR $GOPATH/src/pincloud.purchase/purchaseApp/
+RUN go get
 RUN go build .
 
-EXPOSE 8080
+EXPOSE 9401
 
-ENTRYPOINT ["./pincloud.purchase"]
+ENTRYPOINT ["./purchaseApp"]
