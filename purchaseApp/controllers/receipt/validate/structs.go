@@ -4,11 +4,11 @@ package validate
 // apple:
 // google:
 type IAPConfig struct {
-	ApplePassword          string `form:"applePassword"`
-	GoogleClientID         string `form:"googleClientID"`
-	GoogleClientSecret     string `form:"googleClientSecret"`
-	GooglePublicKeyStrLive string `form:"googlePublicKeyStrLive"`
-	GoogleRefToken         string `form:"googleRefToken"`
+	ApplePassword          string `form:"apple_password"`
+	GoogleClientID         string `form:"google_client_id"`
+	GoogleClientSecret     string `form:"google_client_secret"`
+	GooglePublicKeyStrLive string `form:"google_public_key_str_live"`
+	GoogleRefToken         string `form:"google_refresh_token"`
 }
 
 // 用于单独将market解析出来，进入不同的逻辑
@@ -16,18 +16,17 @@ type reqMarket struct {
 	Market string `form:"market" binding:"required"`
 }
 
-// appleReqParams 请求参数
 type reqParams struct {
 	Receipt       interface{} `form:"receipt" bingding:"required"`
 	Market        string      `form:"market" binding:"required"`
-	IAPConfig     IAPConfig   `form:"iapConfig" binding:"required"`
-	UserID        string      `form:"userId"`
+	IAPConfig     IAPConfig   `form:"iap_config" binding:"required"`
+	UserID        string      `form:"user_id"`
 	Product       string      `form:"product"`
 	Platform      string      `form:"platform"`
 	Version       string      `form:"version"`
-	TransactionID string      `form:"transactionId"`
-	SandboxMode   bool        `form:"sandboxMode"` //apple测试需要指定为true
-	OrderID       string      `form:"orderId"`
+	TransactionID string      `form:"transaction_id"`
+	SandboxMode   bool        `form:"sandbox_mode"` //apple测试需要指定为true
+	OrderID       string      `form:"order_id"`
 }
 
 type googleReceipt struct {
@@ -100,10 +99,10 @@ type googleReceiptData struct {
 // ResponseData validate返回数据类型
 type ResponseData struct {
 	Status            int            `json:"status"`
-	InApps            []inAppProduct `json:"in_app，omitempty"`
+	InApps            []inAppProduct `json:"in_app,omitempty"`
 	LatestReceiptInfo []inAppProduct `json:"latest_receipt_info,omitempty"`
 	LatestReceipt     string         `json:"latest_receipt,omitempty"` //auto-renewal订单有该数据
-	IsSubscription    bool           `json:"is_subscription"`
+	IsSubscription    bool           `json:"is_subscription,omitempty"`
 	Receipt           interface{}    `json:"receipt"`
 }
 
