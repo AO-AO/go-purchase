@@ -4,11 +4,11 @@ package validate
 // apple:
 // google:
 type IAPConfig struct {
-	ApplePassword          string `form:"apple_password"`
-	GoogleClientID         string `form:"google_client_id"`
-	GoogleClientSecret     string `form:"google_client_secret"`
-	GooglePublicKeyStrLive string `form:"google_public_key_str_live"`
-	GoogleRefToken         string `form:"google_refresh_token"`
+	ApplePassword          string `form:"apple_password" json:"apple_password,omitempty"`
+	GoogleClientID         string `form:"google_client_id" json:"google_client_id,omitempty"`
+	GoogleClientSecret     string `form:"google_client_secret" json:"google_client_secret,omitempty"`
+	GooglePublicKeyStrLive string `form:"google_public_key_str_live" json:"google_public_key_str_live,omitempty"`
+	GoogleRefToken         string `form:"google_refresh_token" json:"google_refresh_token,omitempty"`
 }
 
 // 用于单独将market解析出来，进入不同的逻辑
@@ -17,16 +17,16 @@ type reqMarket struct {
 }
 
 type reqParams struct {
-	Receipt       interface{} `form:"receipt" bingding:"required"`
-	Market        string      `form:"market" binding:"required"`
-	IAPConfig     IAPConfig   `form:"iap_config" binding:"required"`
-	UserID        string      `form:"user_id"`
-	Product       string      `form:"product"`
-	Platform      string      `form:"platform"`
-	Version       string      `form:"version"`
-	TransactionID string      `form:"transaction_id"`
-	SandboxMode   bool        `form:"sandbox_mode"` //apple测试需要指定为true
-	OrderID       string      `form:"order_id"`
+	Receipt       interface{} `form:"receipt" bingding:"required" json:"receipt"`
+	Market        string      `form:"market" binding:"required" json:"market"`
+	IAPConfig     IAPConfig   `form:"iap_config" json:"iap_config"`
+	UserID        string      `form:"user_id" json:"user_id"`
+	Product       string      `form:"product" json:"product"`
+	Platform      string      `form:"platform" json:"platform"`
+	Version       string      `form:"version" json:"version"`
+	TransactionID string      `form:"transaction_id" json:"transaction_id"`
+	SandboxMode   bool        `form:"sandbox_mode" json:"sandbox_mode"` //apple测试需要指定为true
+	OrderID       string      `form:"order_id" json:"order_id"`
 }
 
 type googleReceipt struct {
