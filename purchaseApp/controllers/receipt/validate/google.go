@@ -104,14 +104,13 @@ func validateGoogle(receipt string, iapConfig IAPConfig) (googleValidateRes, err
 	if validateResult.StartDateMs != "" {
 		purchaseDataMs = validateResult.StartDateMs
 	}
-	inApp := inAppProduct{
+	inApp := InAppProduct{
 		Quantity:       1,
 		ProductID:      receiptReq.ProductID,
 		TransactionID:  receiptReq.PurchaseToken,
 		PurchaseDateMs: purchaseDataMs,
 		ExpireDateMs:   validateResult.ExpireDateMs,
-		OrderID:        validateResult.OrderID,
 	}
-	validateResult.InApps = []inAppProduct{inApp}
+	validateResult.InApps = []InAppProduct{inApp}
 	return validateResult, err
 }

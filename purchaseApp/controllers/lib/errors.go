@@ -17,6 +17,11 @@ var ERRORS = map[string]ERROR{
 		Message: "Params error",
 		Type:    "PARAMS_ERROR",
 	},
+	"STATUS_ERROR": ERROR{
+		Code:    400,
+		Message: "The receipt status is invalid",
+		Type:    "STATUS_ERROR",
+	},
 }
 
 // ERROR Error详情

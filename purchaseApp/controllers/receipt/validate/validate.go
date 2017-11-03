@@ -64,14 +64,6 @@ func (controller *Controller) DataManipulate(request interface{}) (interface{}, 
 			validateResult.IsSubscription = true
 		}
 
-		// 为与本次请求transactionID匹配的inApp装入orderID
-		if requestParams.TransactionID != "" && requestParams.OrderID != "" {
-			for _, inApp := range validateResult.InApps {
-				if inApp.TransactionID == requestParams.TransactionID {
-					inApp.OrderID = requestParams.OrderID
-				}
-			}
-		}
 	}
 
 	if strings.ToLower(requestParams.Market) == "android" {
