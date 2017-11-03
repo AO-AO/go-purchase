@@ -1,0 +1,33 @@
+{
+    "meta": {
+        "error_type": "",
+        "code": 200,
+        "error_message": "success"
+    },
+    "data": {
+        "status": 0,
+        "in_app": [{
+            "quantity": 1,
+            "product_id": "com.socialsnap.mojo.sub_vip1",
+            "transaction_id": "bnikiogodpkfihfnfdcmbobc.AO-J1OwedCBdSLG9-PkmMzausZHnC4z9ihGuv3nEm728dq-n-NOk-pYoMYfjDlznWOAR9tJMLsEqDe9BWicM6-igDjEBfV-sCepj1RO3U1QCRX5uHiz9L43O3E2rxPE3zRcq3ySVZxjNyneI_8rRtE4obUsp_Ae3Ww",
+            "purchase_date_ms": "1508792369168",
+            "expires_date_ms": "1508792742798"
+        }],
+        "is_subscription": true,
+        "receipt": {
+            "data": "{\"orderId\":\"GPA.3379-3955-8810-57687\",\"packageName\":\"com.socialsnap.mojo\",\"productId\":\"com.socialsnap.mojo.sub_vip1\",\"purchaseTime\":1508792369168,\"purchaseState\":0,\"developerPayload\":\"subs:com.socialsnap.mojo.sub_vip1:as89:aaa5741\",\"purchaseToken\":\"bnikiogodpkfihfnfdcmbobc.AO-J1OwedCBdSLG9-PkmMzausZHnC4z9ihGuv3nEm728dq-n-NOk-pYoMYfjDlznWOAR9tJMLsEqDe9BWicM6-igDjEBfV-sCepj1RO3U1QCRX5uHiz9L43O3E2rxPE3zRcq3ySVZxjNyneI_8rRtE4obUsp_Ae3Ww\",\"autoRenewing\":true}",
+            "purchaseData": {
+                "autoRenewing": true,
+                "developerPayload": "subs:com.socialsnap.mojo.sub_vip1:as89:aaa5741",
+                "orderId": "GPA.3379-3955-8810-57687",
+                "packageName": "com.socialsnap.mojo",
+                "productId": "com.socialsnap.mojo.sub_vip1",
+                "purchaseState": "PurchasedSuccessfully",
+                "purchaseTime": "Oct 23, 2017 22:59:29",
+                "purchaseToken": "bnikiogodpkfihfnfdcmbobc.AO-J1OwedCBdSLG9-PkmMzausZHnC4z9ihGuv3nEm728dq-n-NOk-pYoMYfjDlznWOAR9tJMLsEqDe9BWicM6-igDjEBfV-sCepj1RO3U1QCRX5uHiz9L43O3E2rxPE3zRcq3ySVZxjNyneI_8rRtE4obUsp_Ae3Ww"
+            },
+            "signature": "S3KBasnZY28Zvyi0aaoqhmFblrqOEwmihwbvfrEyZ+T51zteiWCexps3yOdVL6cxdOeIrinC0f8Zq6dLBJ5WX44DzUU/EXrJatiVliht2QQk/rgYwtvCRi5wfxkmxs9FSQ4tdfYra19j3XF5Vj//HxmFS/am2mAyrvHLy2QH1+0w3ChHXLThgAxU/ymK+RU6JsHPuVul1N6xHvdn4ReM2ROKYRCoracReRXWc2bf7L/SVbI31/rgCf2fcZGl/mWW8EPaJwTy4k2sq0fJVvEJwkIXiA89C6VPdcfo8RgNSPJWc0vyfUygSBHMSNgfWq2WJ4WNQmT6a0bW7IUXg5kAJg=="
+        }
+    },
+    "salt": 1509704765535
+}

@@ -1,0 +1,23 @@
+{
+    "iap_config": {
+        "google_client_id": "59267194450-t33sgb0qs9ganbtmsmbbkc0rlgcba11k.apps.googleusercontent.com",
+        "google_client_secret": "SNNOEpk3uC5FX5WJxpRA8-cB",
+        "google_public_key_str_live": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiQXMNSh81MLSLvTpaLfBC0jBzBUEaLbpln7N6NTtnjVNlNg6iU8w/qwL5uMXPn/K181MkQUIH8EyzuBYxGX1rZvtVztmboMtZEFRiBWHz7xDOWGI0V9xJwe1duya6Dkf/higkZx9v7LtESA6C09Aqts2w9DR8KFsZjLRSWBHpRLhnr8op1gDQ9C8otMaIqgUxxSk7jLO0ntSq+4fJGhHPZvtPa1B4TphOjcBm2SoAv94cyh9yyWfrVjK+lUp3EwIQ4feTs6fok9MV3lO1UHAAHai1x9npVxAfSm2jW3tq6SlbMZ9DlIqAjjqjcyGV5mor1i8RVPmUJ6sfQymEgjCLQIDAQAB",
+        "google_refresh_token": "1/ti8-n40ZUFDxvMukIsM6im-AHBtsk6Fo63htoOCy9Sc"
+    },
+    "market": "android",
+    "receipt": {
+        "purchaseData": {
+            "autoRenewing": true,
+            "developerPayload": "subs:com.socialsnap.mojo.sub_vip1:as89:aaa5741",
+            "orderId": "GPA.3379-3955-8810-57687",
+            "packageName": "com.socialsnap.mojo",
+            "productId": "com.socialsnap.mojo.sub_vip1",
+            "purchaseState": "PurchasedSuccessfully",
+            "purchaseTime": "Oct 23, 2017 22:59:29",
+            "purchaseToken": "bnikiogodpkfihfnfdcmbobc.AO-J1OwedCBdSLG9-PkmMzausZHnC4z9ihGuv3nEm728dq-n-NOk-pYoMYfjDlznWOAR9tJMLsEqDe9BWicM6-igDjEBfV-sCepj1RO3U1QCRX5uHiz9L43O3E2rxPE3zRcq3ySVZxjNyneI_8rRtE4obUsp_Ae3Ww"
+        },
+        "data": "{\"orderId\":\"GPA.3379-3955-8810-57687\",\"packageName\":\"com.socialsnap.mojo\",\"productId\":\"com.socialsnap.mojo.sub_vip1\",\"purchaseTime\":1508792369168,\"purchaseState\":0,\"developerPayload\":\"subs:com.socialsnap.mojo.sub_vip1:as89:aaa5741\",\"purchaseToken\":\"bnikiogodpkfihfnfdcmbobc.AO-J1OwedCBdSLG9-PkmMzausZHnC4z9ihGuv3nEm728dq-n-NOk-pYoMYfjDlznWOAR9tJMLsEqDe9BWicM6-igDjEBfV-sCepj1RO3U1QCRX5uHiz9L43O3E2rxPE3zRcq3ySVZxjNyneI_8rRtE4obUsp_Ae3Ww\",\"autoRenewing\":true}",
+        "signature": "S3KBasnZY28Zvyi0aaoqhmFblrqOEwmihwbvfrEyZ+T51zteiWCexps3yOdVL6cxdOeIrinC0f8Zq6dLBJ5WX44DzUU/EXrJatiVliht2QQk/rgYwtvCRi5wfxkmxs9FSQ4tdfYra19j3XF5Vj//HxmFS/am2mAyrvHLy2QH1+0w3ChHXLThgAxU/ymK+RU6JsHPuVul1N6xHvdn4ReM2ROKYRCoracReRXWc2bf7L/SVbI31/rgCf2fcZGl/mWW8EPaJwTy4k2sq0fJVvEJwkIXiA89C6VPdcfo8RgNSPJWc0vyfUygSBHMSNgfWq2WJ4WNQmT6a0bW7IUXg5kAJg=="
+    }
+}

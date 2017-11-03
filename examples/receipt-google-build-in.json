@@ -1,0 +1,23 @@
+{
+    "iap_config": {
+        "google_client_id": "59267194450-t33sgb0qs9ganbtmsmbbkc0rlgcba11k.apps.googleusercontent.com",
+        "google_client_secret": "SNNOEpk3uC5FX5WJxpRA8-cB",
+        "google_public_key_str_live": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiQXMNSh81MLSLvTpaLfBC0jBzBUEaLbpln7N6NTtnjVNlNg6iU8w/qwL5uMXPn/K181MkQUIH8EyzuBYxGX1rZvtVztmboMtZEFRiBWHz7xDOWGI0V9xJwe1duya6Dkf/higkZx9v7LtESA6C09Aqts2w9DR8KFsZjLRSWBHpRLhnr8op1gDQ9C8otMaIqgUxxSk7jLO0ntSq+4fJGhHPZvtPa1B4TphOjcBm2SoAv94cyh9yyWfrVjK+lUp3EwIQ4feTs6fok9MV3lO1UHAAHai1x9npVxAfSm2jW3tq6SlbMZ9DlIqAjjqjcyGV5mor1i8RVPmUJ6sfQymEgjCLQIDAQAB",
+        "google_refresh_token": "1/ti8-n40ZUFDxvMukIsM6im-AHBtsk6Fo63htoOCy9Sc"
+    },
+    "market": "android",
+    "receipt": {
+        "purchaseData": {
+            "autoRenewing": false,
+            "developerPayload": "inapp:com.socialsnap.mojo.golden_vip0:394a2526-58ce-40ca-8dc1-545bfa8cca27:as89:aaa6566",
+            "orderId": "GPA.3357-6121-2599-75451",
+            "packageName": "com.socialsnap.mojo",
+            "productId": "com.socialsnap.mojo.golden_vip0",
+            "purchaseState": "PurchasedSuccessfully",
+            "purchaseTime": "Oct 17, 2017 16:29:10",
+            "purchaseToken": "hpbagpckgopbnnopiogcbhik.AO-J1OxJZPfxjt8mPDxxtoCipunoucFhOpNSHqlKLtojNqxqFYbPWtbo7VeqTO2MOPaLQ5hT7CFjBMj06tuj8d7iC_ckkOhfiYmy0VLqeuLfCHBKIHXSNtjygrjdkYKQG_ZRy4JasN1LyKI51eUqA-EptckLJ2L_wg"
+        },
+        "data": "{\"orderId\":\"GPA.3357-6121-2599-75451\",\"packageName\":\"com.socialsnap.mojo\",\"productId\":\"com.socialsnap.mojo.golden_vip0\",\"purchaseTime\":1508228950359,\"purchaseState\":0,\"developerPayload\":\"inapp:com.socialsnap.mojo.golden_vip0:394a2526-58ce-40ca-8dc1-545bfa8cca27:as89:aaa6566\",\"purchaseToken\":\"hpbagpckgopbnnopiogcbhik.AO-J1OxJZPfxjt8mPDxxtoCipunoucFhOpNSHqlKLtojNqxqFYbPWtbo7VeqTO2MOPaLQ5hT7CFjBMj06tuj8d7iC_ckkOhfiYmy0VLqeuLfCHBKIHXSNtjygrjdkYKQG_ZRy4JasN1LyKI51eUqA-EptckLJ2L_wg\"}",
+        "signature": "h4U1ZroZ1ah3z5oD3V+Aos+Cdb/B4o3TU5ONd7YylFapcWISuEddSL2fLHU3VfXSOt+e1RMQ5mldXFHpx1YMdomROyFF9KdWhMQsuWwN0aI+qkaO16lWhZsH8CZyThlMd1exz6JQBlczhahMM9A7HJrESvCuNq/lkWgpy6ZmdLSVL59UOZFpukPxfhXK12u9MCJ8bNC3ZNgvLQS8LyAt3Teyttkut03L/aaAaXpf6q7t9y77wTpzUqF6ETM67P7CQDkHrY5uwFMHcPdUt0JYO8triTLvkNlHwXiOCgZLvUqnFFl3Yqh07gqyMZdIYM90+jR08ieqnkUJNcuxugjSuA=="
+    }
+}
