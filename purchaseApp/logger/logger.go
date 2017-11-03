@@ -9,7 +9,7 @@ import (
 
 // Info 打印Info信息
 func Info(message string, context gin.Context) {
-	nowTime := time.Now().Format("2017-10-21 15:00:00")
+	nowTime := time.Now().Format("2006/01/02 - 15:04:05")
 	requestID, ok := context.Get("RequestID")
 	var strRequestID string
 	if !ok {
@@ -25,7 +25,7 @@ func Info(message string, context gin.Context) {
 
 //Error 打印Error信息
 func Error(message string, context gin.Context) {
-	nowTime := time.Now().Format("2017-10-21 15:00:00")
+	nowTime := time.Now().Format("2006/01/02 - 15:04:05")
 	requestID, ok := context.Get("RequestID")
 	var strRequestID string
 	if !ok {
@@ -41,7 +41,7 @@ func Error(message string, context gin.Context) {
 
 //Warn 打印Warn信息
 func Warn(message string, context gin.Context) {
-	nowTime := time.Now().Format("2017-10-21 15:00:00")
+	nowTime := time.Now().Format("2006/01/02 - 15:04:05")
 	requestID, ok := context.Get("RequestID")
 	var strRequestID string
 	if !ok {

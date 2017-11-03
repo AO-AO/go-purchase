@@ -120,17 +120,3 @@ func (controller *Controller) SendResponse(context *gin.Context, rawData interfa
 	context.JSON(http.StatusOK, resData)
 	return nil
 }
-
-// ErrorHandle 为Controller实现的错误处理模块
-func (controller *Controller) ErrorHandle(context *gin.Context, err error) {
-	errDetail := lib.ERRORS[err.Error()]
-	errResponseJSON := lib.StandardResponse{
-		Meta: lib.StandardResponseMeta{
-			ErrorMessage: errDetail.Message,
-			Code:         errDetail.Code,
-			ErrorType:    errDetail.Type,
-		},
-		Salt: time.Now().UnixNano() / 1000000,
-	}
-	context.AbortWithStatusJSON(http.StatusBadRequest, errResponseJSON)
-}

@@ -5,9 +5,9 @@ echo $CURDIR
 cd $CURDIR
 go build
 
-if [[ "$REVIEW_ENV"x = "production"x ]]
+if [[ "$SERVICE_ENV"x = "production"x ]]
 then
-    ./purchaseApp
+    ./purchaseApp &> log/out.log 1> log/info.log 2> log/error.log
 else
     ./purchaseApp 
 fi

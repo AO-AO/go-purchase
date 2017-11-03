@@ -1,0 +1,41 @@
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /healthy                  --> main.main.func1 (3 handlers)
+[GIN-debug] POST   /api/v1/receipt/validate  --> pincloud.purchase/purchaseApp/api/v1.MountReceiptRouter.func1 (4 handlers)
+[GIN-debug] POST   /api/v1/receipt/filter    --> pincloud.purchase/purchaseApp/api/v1.MountReceiptRouter.func2 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :9401
+ERROR: 2017/11/03 - 14:53:45 [4b7af98a-a6d4-4fef-a7b1-61ee8be64fde] Key: 'reqParams.Market' Error:Field validation for 'Market' failed on the 'required' tag
+goroutine 18 [running]:
+runtime/debug.Stack(0xc4201c85c0, 0xc420159678, 0x14b49fd)
+	/usr/local/Cellar/go/1.9.1/libexec/src/runtime/debug/stack.go:24 +0xa7
+runtime/debug.PrintStack()
+	/usr/local/Cellar/go/1.9.1/libexec/src/runtime/debug/stack.go:16 +0x22
+pincloud.purchase/purchaseApp/controllers.ErrorHandle(0xc420228000, 0x18a5340, 0xc4201c6490)
+	/Users/xuao/Documents/pinssible/go/src/pincloud.purchase/purchaseApp/controllers/controllers.go:53 +0x1e7
+pincloud.purchase/purchaseApp/controllers.NewExecuter.func1(0xc420228000, 0x18ab940, 0xc4202280b0)
+	/Users/xuao/Documents/pinssible/go/src/pincloud.purchase/purchaseApp/controllers/controllers.go:36 +0x70
+pincloud.purchase/purchaseApp/api/v1.MountReceiptRouter.func1(0xc420228000)
+	/Users/xuao/Documents/pinssible/go/src/pincloud.purchase/purchaseApp/api/v1/receipt.go:17 +0xdd
+github.com/gin-gonic/gin.(*Context).Next(0xc420228000)
+	/Users/xuao/Documents/pinssible/go/src/github.com/gin-gonic/gin/context.go:110 +0x43
+github.com/gin-gonic/gin.RecoveryWithWriter.func1(0xc420228000)
+	/Users/xuao/Documents/pinssible/go/src/github.com/gin-gonic/gin/recovery.go:46 +0x5a
+github.com/gin-gonic/gin.(*Context).Next(0xc420228000)
+	/Users/xuao/Documents/pinssible/go/src/github.com/gin-gonic/gin/context.go:110 +0x43
+github.com/gin-gonic/gin.LoggerWithWriter.func1(0xc420228000)
+	/Users/xuao/Documents/pinssible/go/src/github.com/gin-gonic/gin/logger.go:83 +0xcc
+github.com/gin-gonic/gin.(*Context).Next(0xc420228000)
+	/Users/xuao/Documents/pinssible/go/src/github.com/gin-gonic/gin/context.go:110 +0x43
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc420214000, 0xc420228000)
+	/Users/xuao/Documents/pinssible/go/src/github.com/gin-gonic/gin/gin.go:344 +0x5c5
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc420214000, 0x18aa9c0, 0xc4202120e0, 0xc4201d2100)
+	/Users/xuao/Documents/pinssible/go/src/github.com/gin-gonic/gin/gin.go:311 +0x16b
+net/http.serverHandler.ServeHTTP(0xc4201d6270, 0x18aa9c0, 0xc4202120e0, 0xc4201d2100)
+	/usr/local/Cellar/go/1.9.1/libexec/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4201de460, 0x18ab500, 0xc4201c8300)
+	/usr/local/Cellar/go/1.9.1/libexec/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/Cellar/go/1.9.1/libexec/src/net/http/server.go:2720 +0x288
+[GIN] 2017/11/03 - 14:53:45 | 400 |     4.02232ms |       127.0.0.1 | POST     /api/v1/receipt/validate

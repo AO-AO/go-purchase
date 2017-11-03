@@ -11,11 +11,6 @@ type IAPConfig struct {
 	GoogleRefToken         string `form:"google_refresh_token" json:"google_refresh_token,omitempty"`
 }
 
-// 用于单独将market解析出来，进入不同的逻辑
-type reqMarket struct {
-	Market string `form:"market" binding:"required"`
-}
-
 type reqParams struct {
 	Receipt     interface{} `form:"receipt" bingding:"required" json:"receipt"`
 	Market      string      `form:"market" binding:"required" json:"market"`
