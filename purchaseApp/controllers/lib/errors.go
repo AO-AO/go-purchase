@@ -2,6 +2,11 @@ package lib
 
 // ERRORS 错误输列表
 var ERRORS = map[string]ERROR{
+	"": ERROR{
+		Code:    400,
+		Message: "Internal server error",
+		Type:    "INTERNAL_SERVER_ERROR",
+	},
 	"RESPONSE_FORMAT_ERROR": ERROR{
 		Code:    400,
 		Message: "Error response format",
