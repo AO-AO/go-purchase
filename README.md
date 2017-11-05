@@ -1,6 +1,22 @@
 # Purchase微服务说明
 
-## 部署说说明
+<!-- TOC depthFrom:2 -->
+
+- [1. 部署说说明](#1-部署说说明)
+- [2. 校验 receipt](#2-校验-receipt)
+    - [2.1. URL](#21-url)
+    - [2.2. 参数说明](#22-参数说明)
+    - [2.3. 请求参数样例](#23-请求参数样例)
+    - [2.4. 返回样例](#24-返回样例)
+- [3. 获得product信息](#3-获得product信息)
+    - [3.1. URL](#31-url)
+    - [3.2. 参数说明](#32-参数说明)
+    - [3.3. 请求参数样例](#33-请求参数样例)
+    - [3.4. 返回样例](#34-返回样例)
+
+<!-- /TOC -->
+
+## 1. 部署说说明
 
 ```shell
 cd pincloud.purchase
@@ -10,13 +26,13 @@ docker run --env [SERVICE_ENV=] -p 8018:9401<dest:source> -itd
 docker run --env SERVICE_ENV=production -p 8016:9401 -itd review:$version
 ```
 
-## 校验 receipt
+## 2. 校验 receipt
 
-### URL
+### 2.1. URL
 
     <server_address>:9401/api/v1/receipt/validate
 
-### 参数说明
+### 2.2. 参数说明
 
 *'\*' 标识必选参数*
 
@@ -68,7 +84,7 @@ docker run --env SERVICE_ENV=production -p 8016:9401 -itd review:$version
 
   日志用
 
-### 请求参数样例
+### 2.3. 请求参数样例
 
 - [apple 订阅购买](./examples/receipt-apple-subscription.json)
 
@@ -78,7 +94,7 @@ docker run --env SERVICE_ENV=production -p 8016:9401 -itd review:$version
 
 - [google 内建购买](./examples/receipt-google-build-in.json)
 
-### 返回样例
+### 2.4. 返回样例
 
 - [apple 订阅购买](./examples/response-apple-subscription.json)
 
@@ -88,13 +104,13 @@ docker run --env SERVICE_ENV=production -p 8016:9401 -itd review:$version
 
 - [google 内建购买](./examples/response-google-build-in.json)
 
-## 获得product信息
+## 3. 获得product信息
 
-### URL
+### 3.1. URL
 
     <server_address>:9401/api/v1/receipt/filter
 
-### 参数说明
+### 3.2. 参数说明
 
 *'\*' 标识必选参数*
 
@@ -140,10 +156,10 @@ docker run --env SERVICE_ENV=production -p 8016:9401 -itd review:$version
   如果传入offer\_id，则通过offer_id筛选出匹配的dbProduct;
   如果没有传入offer\_id，则通过product_id筛选出匹配的dbProduct。
 
-### 请求参数样例
+### 3.3. 请求参数样例
 
 - [filter接口请求样例](./examples/filter-request.json)
 
-### 返回样例
+### 3.4. 返回样例
 
 - [filter接口返回样例](./examples/filter-response.json)
