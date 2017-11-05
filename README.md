@@ -14,7 +14,7 @@ docker run --env SERVICE_ENV=production -p 8016:9401 -itd review:$version
 
 ### URL
 
-    \<server_address\>:9401/api/v1/receipt/validate
+    <server_address>:9401/api/v1/receipt/validate
 
 ### 参数说明
 
@@ -67,6 +67,53 @@ docker run --env SERVICE_ENV=production -p 8016:9401 -itd review:$version
 - version (string)
 
   日志用
+
+### 请求参数样例
+
+- [apple 订阅购买](./examples/receipt-apple-subscription.json)
+
+- [apple 内建购买](./examples/receipt-apple-build-in.json)
+
+- [google 订阅购买](./examples/receipt-google-subscription.json)
+
+- [google 内建购买](./examples/receipt-google-build-in.json)
+
+### 返回样例
+
+- [apple 订阅购买](./examples/response-apple-subscription.json)
+
+- [apple 内建购买](./examples/response-apple-build-in.json)
+
+- [google 订阅购买](./examples/response-google-subscription.json)
+
+- [google 内建购买](./examples/response-google-build-in.json)
+
+## 获得product信息
+
+### URL
+
+    <server_address>:9401/api/v1/receipt/filter
+
+### 参数说明
+
+*'\*' 标识必选参数*
+
+- validate_result * (json)
+
+  validate接口返回详情。
+ 
+  *PS.最佳做法是只传入 stataus/in_app 两个必要参数*
+
+- product_list * (json)
+
+  "ios" 或 "android"。表示校验商店。
+
+- transaction_id (json)
+
+
+- offer_id (bool)
+
+  如果是苹果的沙盒模式，必须设为true
 
 ### 请求参数样例
 

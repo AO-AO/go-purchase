@@ -1,0 +1,94 @@
+{
+    "validate_result": {
+        "status": 0,
+        "in_app": [{
+            "product_id": "com.cocojulia1995.neon.vip0",
+            "transaction_id": "480000258188716",
+            "original_transaction_id": "480000258188716",
+            "purchase_date_ms": "1508961748000",
+            "original_purchase_date_ms": "1508961748000",
+            "expires_date_ms": "1509220948000"
+        }],
+        "latest_receipt_info": [{
+                "product_id": "com.cocojulia1995.neon.vip0",
+                "transaction_id": "480000258188716",
+                "original_transaction_id": "480000258188716",
+                "purchase_date_ms": "1508961748000",
+                "original_purchase_date_ms": "1508961748000",
+                "expires_date_ms": "1509220948000"
+            },
+            {
+                "product_id": "com.cocojulia1995.neon.vip0",
+                "transaction_id": "480000259010071",
+                "original_transaction_id": "480000258188716",
+                "purchase_date_ms": "1509220948000",
+                "original_purchase_date_ms": "1508961748000",
+                "expires_date_ms": "1511902948000"
+            }
+        ],
+        "is_subscription": true
+    },
+    "product_list": [{
+            "best_deal": false,
+            "discount": 50,
+            "effect": 360,
+            "iap": {
+                "price": "119.99",
+                "product_id": "com.cocojulia1995.neon.vip2"
+            },
+            "is_hot": false,
+            "is_subscription": true,
+            "kind": "vip",
+            "offer_id": "getx.iap.vip.tier2",
+            "subscription": {
+                "period_day": 360,
+                "period_month": 12,
+                "period_week": 48,
+                "qualifying_period": 0
+            },
+            "way": "iap"
+        },
+        {
+            "best_deal": false,
+            "discount": 30,
+            "effect": 100,
+            "iap": {
+                "price": "79.99",
+                "product_id": "com.cocojulia1995.neon.vip1"
+            },
+            "is_hot": true,
+            "is_subscription": true,
+            "kind": "vip",
+            "offer_id": "getx.iap.vip.tier1",
+            "subscription": {
+                "period_day": 180,
+                "period_month": 6,
+                "period_week": 24,
+                "qualifying_period": 0
+            },
+            "way": "iap"
+        },
+        {
+            "best_deal": false,
+            "discount": 0,
+            "effect": 100,
+            "iap": {
+                "price": "19.99",
+                "product_id": "com.cocojulia1995.neon.vip0"
+            },
+            "is_hot": false,
+            "is_subscription": true,
+            "kind": "vip",
+            "offer_id": "getx.iap.vip.tier0",
+            "subscription": {
+                "period_day": 30,
+                "period_month": 1,
+                "period_week": 4,
+                "qualifying_period": 3
+            },
+            "way": "iap"
+        }
+    ],
+    "transaction_id": "",
+    "offer_id": ""
+}

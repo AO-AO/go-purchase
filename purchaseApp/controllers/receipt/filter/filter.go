@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"time"
 
+	"pincloud.purchase/purchaseApp/controllers/receipt/validate"
+
 	"github.com/gin-gonic/gin"
 
 	"pincloud.purchase/purchaseApp/controllers/lib"
@@ -49,6 +51,7 @@ func (controller *Controller) DataManipulate(request interface{}) (interface{}, 
 	}
 
 	// 去掉过期的iap信息的列表
+	resData.ValideIAPs = make([]validate.InAppProduct, 0)
 	for _, iap := range resData.ValidateRes.InApps {
 		iapExpireDateMs, convErr := strconv.Atoi(iap.ExpireDateMs)
 		timeNowMs := time.Now().UnixNano() / 1000000
@@ -70,6 +73,7 @@ func (controller *Controller) DataManipulate(request interface{}) (interface{}, 
 	}
 
 	// 通过过滤过的iap，组装products；至少有1个valideIAPs
+	resData.ValideProducts = make([]dbProduct, 0)
 	if len(resData.ValideIAPs) > 0 {
 		// 超过1个，打印一个warn日志
 		if len(resData.ValideIAPs) > 1 {

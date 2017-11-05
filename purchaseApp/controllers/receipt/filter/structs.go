@@ -23,9 +23,9 @@ type dbProduct struct {
 
 // ResponseData filter的返回结果,是validate的结果，增加一个字段用来存放filter的数据库结果
 type ResponseData struct {
-	ValidateRes    validate.ResponseData   `json:"validate_result,omitempty"`
+	ValidateRes    validate.ResponseData   `json:"validate_result"`
 	TransactionID  string                  `json:"transaction_id,omitempty"`
 	OfferID        string                  `json:"offer_id,omitempty"`
-	ValideIAPs     []validate.InAppProduct `json:"valide_iaps,omitempty"`
-	ValideProducts []dbProduct             `json:"valide_products,omitempty"`
+	ValideIAPs     []validate.InAppProduct `json:"valide_iaps"`
+	ValideProducts []dbProduct             `json:"valide_products"`
 }
