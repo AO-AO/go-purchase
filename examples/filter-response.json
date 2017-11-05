@@ -1,0 +1,45 @@
+{
+    "meta": {
+        "error_type": "",
+        "code": 200,
+        "error_message": "success"
+    },
+    "data": {
+        "validate_result": {
+            "status": 0,
+            "in_app": [{
+                "product_id": "com.cocojulia1995.neon.vip0",
+                "transaction_id": "480000258188716",
+                "original_transaction_id": "480000258188716",
+                "purchase_date_ms": "1508961748000",
+                "original_purchase_date_ms": "1508961748000",
+                "expires_date_ms": "1519220948000"
+            }]
+        },
+        "valide_iaps": [{
+            "product_id": "com.cocojulia1995.neon.vip0",
+            "transaction_id": "480000258188716",
+            "original_transaction_id": "480000258188716",
+            "purchase_date_ms": "1508961748000",
+            "original_purchase_date_ms": "1508961748000",
+            "expires_date_ms": "1519220948000"
+        }],
+        "valide_products": [{
+            "effect": 100,
+            "iap": {
+                "price": "19.99",
+                "product_id": "com.cocojulia1995.neon.vip0"
+            },
+            "kind": "vip",
+            "offer_id": "getx.iap.vip.tier0",
+            "way": "iap",
+            "subscription": {
+                "period_day": 30,
+                "period_month": 1,
+                "period_week": 4,
+                "qualifying_period": 3
+            }
+        }]
+    },
+    "salt": 1509900358526
+}

@@ -85,7 +85,14 @@ func (controller *Controller) DataManipulate(request interface{}) (interface{}, 
 			// 指定了OfferID，则通过OfferID匹配product；没有指定OfferID，则通过productID匹配product
 			if requestParams.OfferID != "" {
 				if requestParams.OfferID == product.OfferID {
-					resData.ValideProducts = append(resData.ValideProducts, product)
+					// 同时product_id匹配
+					for _, iap := range resData.ValideIAPs {
+						if dbProductID, ok := product.Iap["product_id"]; ok {
+							if iap.ProductID == dbProductID {
+								resData.ValideProducts = append(resData.ValideProducts, product)
+							}
+						}
+					}
 				}
 			} else {
 				for _, iap := range resData.ValideIAPs {

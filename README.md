@@ -106,31 +106,44 @@ docker run --env SERVICE_ENV=production -p 8016:9401 -itd review:$version
 
 - product_list * (json)
 
-  "ios" 或 "android"。表示校验商店。
+  数据库中配置的proudcts列表，目前**能且只能**解析一下样例中的字段：
 
-- transaction_id (json)
+  ```json
+  {
+      "discount": 50,
+      "best_deal": true,
+      "effect": 100,
+      "is_hot": true,
+      "iap": {
+          "price": "19.99",
+          "product_id": "com.cocojulia1995.neon.vip0"
+      },
+      "kind": "vip",
+      "offer_id": "getx.iap.vip.tier0",
+      "way": "iap",
+      "subscription": {
+          "period_day": 30,
+          "period_month": 1,
+          "period_week": 4,
+          "qualifying_period": 3
+      }
+  }
+  ```
 
+- transaction_id (string)
 
-- offer_id (bool)
+  可选参数，如果传入该参数，则尝试筛选出和传入 transaction\_id 一致的 in_app 购买项，匹配不到则返回[]。
 
-  如果是苹果的沙盒模式，必须设为true
+- offer_id (string)
+
+  可选参数，当筛选出有效的in_app购买项后；
+  如果传入offer\_id，则通过offer_id筛选出匹配的dbProduct;
+  如果没有传入offer\_id，则通过product_id筛选出匹配的dbProduct。
 
 ### 请求参数样例
 
-- [apple 订阅购买](./examples/receipt-apple-subscription.json)
-
-- [apple 内建购买](./examples/receipt-apple-build-in.json)
-
-- [google 订阅购买](./examples/receipt-google-subscription.json)
-
-- [google 内建购买](./examples/receipt-google-build-in.json)
+- [filter接口请求样例](./examples/filter-request.json)
 
 ### 返回样例
 
-- [apple 订阅购买](./examples/response-apple-subscription.json)
-
-- [apple 内建购买](./examples/response-apple-build-in.json)
-
-- [google 订阅购买](./examples/response-google-subscription.json)
-
-- [google 内建购买](./examples/response-google-build-in.json)
+- [filter接口返回样例](./examples/filter-response.json)

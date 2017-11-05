@@ -7,26 +7,8 @@
             "original_transaction_id": "480000258188716",
             "purchase_date_ms": "1508961748000",
             "original_purchase_date_ms": "1508961748000",
-            "expires_date_ms": "1509220948000"
-        }],
-        "latest_receipt_info": [{
-                "product_id": "com.cocojulia1995.neon.vip0",
-                "transaction_id": "480000258188716",
-                "original_transaction_id": "480000258188716",
-                "purchase_date_ms": "1508961748000",
-                "original_purchase_date_ms": "1508961748000",
-                "expires_date_ms": "1509220948000"
-            },
-            {
-                "product_id": "com.cocojulia1995.neon.vip0",
-                "transaction_id": "480000259010071",
-                "original_transaction_id": "480000258188716",
-                "purchase_date_ms": "1509220948000",
-                "original_purchase_date_ms": "1508961748000",
-                "expires_date_ms": "1511902948000"
-            }
-        ],
-        "is_subscription": true
+            "expires_date_ms": "1519220948000"
+        }]
     },
     "product_list": [{
             "best_deal": false,
