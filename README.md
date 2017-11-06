@@ -2,7 +2,7 @@
 
 <!-- TOC depthFrom:2 -->
 
-- [1. 部署说说明](#1-部署说说明)
+- [1. 部署说明](#1-部署说明)
 - [2. 校验 receipt](#2-校验-receipt)
     - [2.1. URL](#21-url)
     - [2.2. 参数说明](#22-参数说明)
@@ -16,13 +16,14 @@
 
 <!-- /TOC -->
 
-## 1. 部署说说明
+*GitHub: git@git.assembla.com:pincloud.cornerstone.git*
+
+## 1. 部署说明
 
 ```shell
 cd pincloud.purchase
 version=1.0
 docker build -t purchase:$version
-docker run --env [SERVICE_ENV=] -p 8018:9401<dest:source> -itd
 docker run --env SERVICE_ENV=production -p 8016:9401 -itd review:$version
 ```
 
