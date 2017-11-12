@@ -6,8 +6,8 @@
     },
     "data": {
         "validate_result": {
-            "status": 0,
-            "in_app": [{
+            "status": 0, // status=0时，是有效的reeipt
+            "in_app": [{ // receipt中购入的商品信息
                 "product_id": "com.cocojulia1995.neon.vip0",
                 "transaction_id": "480000258188716",
                 "original_transaction_id": "480000258188716",
@@ -16,7 +16,7 @@
                 "expires_date_ms": "1519220948000"
             }]
         },
-        "valide_iaps": [{
+        "valide_iaps": [{ // in_app中有效的商品信息（排除过期购买项）
             "product_id": "com.cocojulia1995.neon.vip0",
             "transaction_id": "480000258188716",
             "original_transaction_id": "480000258188716",
@@ -24,7 +24,7 @@
             "original_purchase_date_ms": "1508961748000",
             "expires_date_ms": "1519220948000"
         }],
-        "valide_products": [{
+        "valide_products": [{ // 购买的商品，对应数据库中的配置信息
             "effect": 100,
             "iap": {
                 "price": "19.99",
